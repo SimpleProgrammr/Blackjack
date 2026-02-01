@@ -14,18 +14,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import blackjack.composeapp.generated.resources.Res
-import blackjack.composeapp.generated.resources.card_back
-import org.jetbrains.compose.resources.painterResource
 import space.badluck.blackjack.GlobalStorage
 import space.badluck.blackjack.Managers.CardManager
 import space.badluck.blackjack.Managers.SCREENS
+import space.badluck.blackjack.VectorImages.*
 
 @Composable
 fun GameScreen(globalStorage: GlobalStorage) {
 
     val isDoubled = remember { mutableStateOf(false) }
-    val isGameOver = remember { mutableStateOf(false) }
     val isBetLocked = remember { mutableStateOf(false) }
 
 
@@ -54,7 +51,10 @@ fun GameScreen(globalStorage: GlobalStorage) {
 
             // Scores Rows
             Row(modifier = Modifier.fillMaxHeight(0.15f)) {
-                Spacer(Modifier.weight(0.2f))
+                Button(
+                    modifier = Modifier.weight(0.2f),
+                   onClick = { globalStorage.cardManager.value.setDifficultyLevel( (globalStorage.cardManager.value.getDifficultyLevel() + 1) % 3 + 1 )}
+                ){Text("Difficulty: " + globalStorage.cardManager.value.getDifficultyLevel().toString())}
                 Column(modifier = Modifier.weight(0.6f), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(modifier = Modifier.padding(1.dp), text = "Score: " + globalStorage.currentScore)
                     if (globalStorage.currentScore > globalStorage.topScore) {
@@ -82,10 +82,10 @@ fun GameScreen(globalStorage: GlobalStorage) {
                             var image = globalStorage.cardManager.value.getCardImage(i.image[0], i.image[1])
 
                             if (i == croupierHand.last() && !playerStand.value) {
-                                image = painterResource(Res.drawable.card_back)
+                                image = CardBack
                             }
                             Image(
-                                painter = image,
+                                imageVector = image,
                                 contentDescription = i.name + " of " + i.color,
                                 modifier = Modifier.width(90.dp).height(120.dp),
                             )
@@ -176,15 +176,16 @@ fun GameScreen(globalStorage: GlobalStorage) {
                     )
                     Row(modifier = Modifier.weight(0.4f).align(Alignment.CenterHorizontally)) {// Players cards
 
-                        for (i in playerHand) {
 
+                        for (i in playerHand) {
                             var image = globalStorage.cardManager.value.getCardImage(i.image[0], i.image[1])
 
                             if (i == croupierHand.last() && !playerStand.value) {
-                                image = painterResource(Res.drawable.card_back)
+                                image = CardBack
                             }
+
                             Image(
-                                painter = image,
+                                imageVector = image,
                                 contentDescription = i.name + " of " + i.color,
                                 modifier = Modifier.width(90.dp).height(120.dp),
                             )
@@ -222,26 +223,31 @@ fun GameScreen(globalStorage: GlobalStorage) {
                     Button(
                         onClick = {
 
-                            playerStand.value = true;
+                            playerStand.value = true
                             croupierHandValue.value = getHandValue(croupierHand, playerStand.value)
 
-                            val maxValue = croupierHandValue.value.substringAfter('/').toInt()
+
 
                             while (croupierHandValue.value.substringAfter('/').toInt() < 17) {
                                 croupierHand.add(globalStorage.cardManager.value.getRandomCard())
                                 croupierHandValue.value = getHandValue(croupierHand, playerStand.value)
                             }
-                            if(maxValue < playerHandValue.value.toInt() || maxValue > 21) {
+
+
+                            val maxValue = croupierHandValue.value.substringAfter('/').toInt()
+                            if(maxValue < playerHandValue.value.substringAfter('/').toInt() || maxValue > 21) {
                                 if(playerHand.size == 2 && playerHandValue.value.contains("21"))
                                     globalStorage.currentScore += globalStorage.currentBet / 2
                                 globalStorage.currentScore += globalStorage.currentBet
                             }
-                            else if (maxValue > playerHandValue.value.toInt())
+                            else if (maxValue > playerHandValue.value.substringAfter('/').toInt())
                                 globalStorage.currentScore -= globalStorage.currentBet
 
                             isBetLocked.value = false
                             isDoubled.value = false
                             canDouble.value = true
+
+                            globalStorage.currentBet = minOf(globalStorage.currentScore, globalStorage.currentBet)
                         },
                         enabled = playerHandValue.value.substringAfter('/').toInt() <= 21 && !isDoubled.value && isBetLocked.value
                     )
@@ -309,7 +315,7 @@ fun getHandValue(hand: ArrayList<CardManager.CARD>, playerStand: Boolean): Strin
             result = value.toString()
         }
         else if(playerStand){
-            result = (value-10).toString() + "/" + value.toString()
+            result = (value-10).toString() + '/' + value.toString()
         }
         else
             result = value.toString()

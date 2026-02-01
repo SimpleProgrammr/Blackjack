@@ -2,16 +2,20 @@ package space.badluck.blackjack.Managers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.painter.Painter
-import blackjack.composeapp.generated.resources.*
-import blackjack.composeapp.generated.resources.Res.drawable
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
+import space.badluck.blackjack.VectorImages.*
 import kotlin.random.Random
 
 
 class CardManager {
-    var difficulty = mutableStateOf(1)
+    private var _difficulty = mutableStateOf(1)
 
+    fun getDifficultyLevel(): Int{
+        return _difficulty.value
+    }
+    fun setDifficultyLevel(difficulty: Int) {
+        _difficulty.value = difficulty
+    }
     data class CARD(
         val name: String,
         val value: Int,
@@ -32,12 +36,12 @@ class CardManager {
         var cardColor = Random.nextInt(0, 4)
 
         var tries = 0
-        while(_cardsUsage[cardColor][cardValue] >= difficulty.value){
+        while(_cardsUsage[cardColor][cardValue] >= _difficulty.value){
             cardValue = Random.nextInt(0, 13)
             cardColor = Random.nextInt(0, 4)
             tries++
             if(tries>5){
-                if(_cardsUsage.all { it.all { it >= difficulty.value } }){
+                if(_cardsUsage.all { it.all { it >= _difficulty.value } }){
                     for (i in 0 until 4)
                         for (j in 0 until 13)
                             _cardsUsage[i][j] = 0
@@ -54,7 +58,7 @@ class CardManager {
 
     fun getCardName(index: Int): String {
         return when(index){
-            0 -> "Ace";
+            0 -> "Ace"
             1 -> "Two"
             2 -> "Three"
             3 -> "Four"
@@ -83,7 +87,7 @@ class CardManager {
 
     fun getCardValue(index: Int): Int{
         if(index == 0){
-            return 11;
+            return 11
         }
         if (index in 1..8){
             return index+1
@@ -92,86 +96,86 @@ class CardManager {
     }
 
     @Composable
-    fun getCardImage(colorIndex: Int, valueIndex: Int): Painter {
+    fun getCardImage(colorIndex: Int, valueIndex: Int): ImageVector {
         return when (colorIndex) {
             0 -> {
                 when (valueIndex) {
-                    0 -> painterResource(drawable.clubs_ace)
-                    1 -> painterResource(drawable.clubs_2)
-                    2 -> painterResource(drawable.clubs_3)
-                    3 -> painterResource(drawable.clubs_4)
-                    4 -> painterResource(drawable.clubs_5)
-                    5 -> painterResource(drawable.clubs_6)
-                    6 -> painterResource(drawable.clubs_7)
-                    7 -> painterResource(drawable.clubs_8)
-                    8 -> painterResource(drawable.clubs_9)
-                    9 -> painterResource(drawable.clubs_10)
-                    10 -> painterResource(drawable.clubs_jack)
-                    11 -> painterResource(drawable.clubs_king)
-                    12 -> painterResource(drawable.clubs_queen)
-                    else -> painterResource(drawable.card_placeholder_refresh)
+                    0 -> ClubsAce
+                    1 -> Clubs2
+                    2 -> Clubs3
+                    3 -> Clubs4
+                    4 -> Clubs5
+                    5 -> Clubs6
+                    6 -> Clubs7
+                    7 -> Clubs8
+                    8 -> Clubs9
+                    9 -> Clubs10
+                    10 -> ClubsJack
+                    11 -> ClubsKing
+                    12 -> ClubsQueen
+                    else -> CardPlaceholderRefresh
 
                 }
             }
 
             1 -> {
                 when (valueIndex) {
-                    0 -> painterResource(drawable.diamonds_ace)
-                    1 -> painterResource(drawable.diamonds_2)
-                    2 -> painterResource(drawable.diamonds_3)
-                    3 -> painterResource(drawable.diamonds_4)
-                    4 -> painterResource(drawable.diamonds_5)
-                    5 -> painterResource(drawable.diamonds_6)
-                    6 -> painterResource(drawable.diamonds_7)
-                    7 -> painterResource(drawable.diamonds_8)
-                    8 -> painterResource(drawable.diamonds_9)
-                    9 -> painterResource(drawable.diamonds_10)
-                    10 -> painterResource(drawable.diamonds_jack)
-                    11 -> painterResource(drawable.diamonds_king)
-                    12 -> painterResource(drawable.diamonds_queen)
-                    else -> painterResource(drawable.card_placeholder_refresh)
+                    0 -> DiamondsAce
+                    1 -> Diamonds2
+                    2 -> Diamonds3
+                    3 -> Diamonds4
+                    4 -> Diamonds5
+                    5 -> Diamonds6
+                    6 -> Diamonds7
+                    7 -> Diamonds8
+                    8 -> Diamonds9
+                    9 -> Diamonds10
+                    10 -> DiamondsJack
+                    11 -> DiamondsKing
+                    12 -> DiamondsQueen
+                    else -> CardPlaceholderRefresh
                 }
             }
 
             2 -> {
                 when (valueIndex) {
-                    0 -> painterResource(drawable.hearts_ace)
-                    1 -> painterResource(drawable.hearts_2)
-                    2 -> painterResource(drawable.hearts_3)
-                    3 -> painterResource(drawable.hearts_4)
-                    4 -> painterResource(drawable.hearts_5)
-                    5 -> painterResource(drawable.hearts_6)
-                    6 -> painterResource(drawable.hearts_7)
-                    7 -> painterResource(drawable.hearts_8)
-                    8 -> painterResource(drawable.hearts_9)
-                    9 -> painterResource(drawable.hearts_10)
-                    10 -> painterResource(drawable.hearts_jack)
-                    11 -> painterResource(drawable.hearts_king)
-                    12 -> painterResource(drawable.hearts_queen)
-                    else -> painterResource(drawable.card_placeholder_refresh)
+                    0 -> HeartsAce
+                    1 -> Hearts2
+                    2 -> Hearts3
+                    3 -> Hearts4
+                    4 -> Hearts5
+                    5 -> Hearts6
+                    6 -> Hearts7
+                    7 -> Hearts8
+                    8 -> Hearts9
+                    9 -> Hearts10
+                    10 -> HeartsJack
+                    11 -> HeartsKing
+                    12 -> HeartsQueen
+                    else -> CardPlaceholderRefresh
                 }
             }
 
             3 -> {
                 when (valueIndex) {
-                    0 -> painterResource(drawable.spades_ace)
-                    1 -> painterResource(drawable.spades_2)
-                    2 -> painterResource(drawable.spades_3)
-                    3 -> painterResource(drawable.spades_4)
-                    4 -> painterResource(drawable.spades_5)
-                    5 -> painterResource(drawable.spades_6)
-                    6 -> painterResource(drawable.spades_7)
-                    7 -> painterResource(drawable.spades_8)
-                    8 -> painterResource(drawable.spades_9)
-                    9 -> painterResource(drawable.spades_10)
-                    10 -> painterResource(drawable.spades_jack)
-                    11 -> painterResource(drawable.spades_king)
-                    12 -> painterResource(drawable.spades_queen)
-                    else -> painterResource(drawable.card_placeholder_refresh)
+                    0 -> SpadesAce
+                    1 -> Spades2
+                    2 -> Spades3
+                    3 -> Spades4
+                    4 -> Spades5
+                    5 -> Spades6
+                    6 -> Spades7
+                    7 -> Spades8
+                    8 -> Spades9
+                    9 -> Spades10
+                    10 -> SpadesJack
+                    11 -> SpadesKing
+                    12 -> SpadesQueen
+                    else -> CardPlaceholderRefresh
                 }
             }
 
-            else -> painterResource(drawable.card_placeholder_refresh)
+            else -> CardPlaceholderRefresh
         }
 
     }
