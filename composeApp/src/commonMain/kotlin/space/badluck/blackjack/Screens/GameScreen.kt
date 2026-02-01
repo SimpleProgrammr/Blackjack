@@ -55,7 +55,7 @@ fun GameScreen(globalStorage: GlobalStorage) {
                     modifier = Modifier.weight(0.2f),
                    onClick = { globalStorage.cardManager.value.setDifficultyLevel( (globalStorage.cardManager.value.getDifficultyLevel() + 1) % 3 + 1 )}
                 ){Text("Difficulty: " + globalStorage.cardManager.value.getDifficultyLevel().toString())}
-                Column(modifier = Modifier.weight(0.6f), horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(modifier = Modifier.weight(0.35f), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(modifier = Modifier.padding(1.dp), text = "Score: " + globalStorage.currentScore)
                     if (globalStorage.currentScore > globalStorage.topScore) {
                         globalStorage.topScore = globalStorage.currentScore
@@ -99,8 +99,14 @@ fun GameScreen(globalStorage: GlobalStorage) {
                         Button(
                             modifier = Modifier.padding(5.dp).align(Alignment.CenterVertically),
                             onClick = {
-                                if (globalStorage.currentBet < 100) return@Button; globalStorage.currentBet -= 100; betText.value =
-                                globalStorage.currentBet.toString()
+                                if(globalStorage.currentBet == 0L)
+                                    globalStorage.currentBet = 1
+
+                                if (globalStorage.currentBet < 100)
+                                    return@Button
+
+                                globalStorage.currentBet -= 100
+                                betText.value = globalStorage.currentBet.toString()
                             },
                             enabled = !isBetLocked.value
                             ) { Text("-") }
@@ -112,8 +118,12 @@ fun GameScreen(globalStorage: GlobalStorage) {
                                         return@TextField
                                     if (!it.all { it.isDigit() })
                                         return@TextField
-                                    betText.value = it
-                                    globalStorage.currentBet = it.toLong()
+                                    var newValue = it.toLong()
+                                    if(newValue > globalStorage.currentScore)
+                                        newValue = globalStorage.currentScore
+
+                                    betText.value = newValue.toString()
+                                    globalStorage.currentBet = newValue
                                 },
                                 modifier = Modifier.onFocusEvent({
                                     if (!it.hasFocus)
@@ -160,8 +170,14 @@ fun GameScreen(globalStorage: GlobalStorage) {
                         Button(
                             modifier = Modifier.padding(5.dp).align(Alignment.CenterVertically),
                             onClick = {
-                                if (globalStorage.currentBet > globalStorage.currentScore - 100) return@Button; globalStorage.currentBet += 100; betText.value =
-                                globalStorage.currentBet.toString()
+                                if(globalStorage.currentBet == 0L)
+                                    globalStorage.currentBet = 1
+
+                                if (globalStorage.currentBet > globalStorage.currentScore - 100)
+                                    return@Button
+
+                                globalStorage.currentBet += 100
+                                betText.value = globalStorage.currentBet.toString()
                             },
                             enabled = !isBetLocked.value
                             ) { Text("+") }
@@ -213,6 +229,8 @@ fun GameScreen(globalStorage: GlobalStorage) {
                                 croupierHandValue.value = getHandValue(croupierHand, true)
                             }
                             globalStorage.currentScore -= globalStorage.currentBet
+                            globalStorage.currentBet = minOf(globalStorage.currentScore, globalStorage.currentBet)
+                            betText.value = globalStorage.currentBet.toString()
                         }
 
                     },
@@ -248,6 +266,8 @@ fun GameScreen(globalStorage: GlobalStorage) {
                             canDouble.value = true
 
                             globalStorage.currentBet = minOf(globalStorage.currentScore, globalStorage.currentBet)
+                            betText.value = globalStorage.currentBet.toString()
+
                         },
                         enabled = playerHandValue.value.substringAfter('/').toInt() <= 21 && !isDoubled.value && isBetLocked.value
                     )
@@ -284,6 +304,8 @@ fun GameScreen(globalStorage: GlobalStorage) {
                         else if (croupierHandValue.value.substringAfter('/').toInt() > playerHandValue.value.toInt())
                             globalStorage.currentScore -= globalStorage.currentBet
 
+                        globalStorage.currentBet = minOf(globalStorage.currentScore, globalStorage.currentBet)
+                        betText.value = globalStorage.currentBet.toString()
 
                     },
                     enabled = playerHandValue.value.substringAfter('/').toInt() <= 21 && canDouble.value && !isDoubled.value && isBetLocked.value
