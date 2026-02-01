@@ -1,3 +1,16 @@
+# Blackjack light game
+---
+If you just want to try, fell free to go. 
+Just download a newest release and install on your android device.
+If you find a bug or you have sugestions, please report it :)
+
+.
+
+.
+
+.
+## For everyone else...
+
 This is a Kotlin Multiplatform project targeting Android, Web, Desktop (JVM).
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
