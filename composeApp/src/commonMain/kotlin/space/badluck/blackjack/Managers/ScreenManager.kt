@@ -38,7 +38,9 @@ class ScreenManager(startScreen: SCREENS) {
 
 enum class SCREENS{
     GREETING,
-    GAME
+    GAME,
+    WIN,
+    LOSE,
 }
 
 enum class DIRECTIONS{

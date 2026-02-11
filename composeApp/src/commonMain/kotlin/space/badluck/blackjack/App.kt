@@ -8,7 +8,8 @@ import androidx.compose.ui.tooling.preview.Preview
 
 import space.badluck.blackjack.Managers.SCREENS
 import space.badluck.blackjack.Managers.ScreenManager
-import space.badluck.blackjack.Screens.GameScreen
+import space.badluck.blackjack.screens.GameScreen
+import space.badluck.blackjack.screens.WinningScreen
 
 @Composable
 @Preview
@@ -39,10 +40,11 @@ fun App() {
             },
 
         ) {
-                            when (globalStorage.screenManager.value.currentScreen.value) {
-                    SCREENS.GREETING -> GreetingScreen(globalStorage)
-                    SCREENS.GAME -> GameScreen(globalStorage)
-
+            when (globalStorage.screenManager.value.currentScreen.value) {
+                SCREENS.GREETING -> GreetingScreen(globalStorage)
+                SCREENS.GAME -> GameScreen(globalStorage)
+                SCREENS.WIN -> WinningScreen(globalStorage)
+                else -> {}
             }
         }
 }
