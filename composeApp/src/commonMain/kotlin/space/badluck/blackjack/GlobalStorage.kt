@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import space.badluck.blackjack.Managers.CardManager
 import space.badluck.blackjack.Managers.ScreenManager
+import space.badluck.blackjack.screens.gameStatus
 
 data class GlobalStorage(
     var theme: ColorThemes.THEME = ColorThemes.THEME.DARK,
@@ -14,7 +15,8 @@ data class GlobalStorage(
     var currentBet: Long = 100,
     var topScore: Long = 0,
     var currentScore: Long = 1000,
-    var playerStand: Boolean = false
+    var playerStand: Boolean = false,
+    val runningGameAction: MutableState<gameStatus> = mutableStateOf(gameStatus.GAME_TAKE_BETS)
 )
 
 

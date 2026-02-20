@@ -2,8 +2,8 @@ package space.badluck.blackjack.Managers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.vector.ImageVector
-import space.badluck.blackjack.VectorImages.*
+import blackjack.composeapp.generated.resources.*
+import org.jetbrains.compose.resources.DrawableResource
 import kotlin.random.Random
 
 
@@ -79,8 +79,8 @@ class CardManager {
         return when(index){
             0 -> "Clubs"
             1 -> "Diamonds"
-            2 -> "Hearts"
-            3 -> "Spades"
+            2 -> "Res.drawable.hearts_"
+            3 -> "Res.drawable.spades_"
             else -> "???"
         }
     }
@@ -96,86 +96,86 @@ class CardManager {
     }
 
     @Composable
-    fun getCardImage(colorIndex: Int, valueIndex: Int): ImageVector {
+    fun getCardImage(colorIndex: Int, valueIndex: Int): DrawableResource {
         return when (colorIndex) {
             0 -> {
                 when (valueIndex) {
-                    0 -> ClubsAce
-                    1 -> Clubs2
-                    2 -> Clubs3
-                    3 -> Clubs4
-                    4 -> Clubs5
-                    5 -> Clubs6
-                    6 -> Clubs7
-                    7 -> Clubs8
-                    8 -> Clubs9
-                    9 -> Clubs10
-                    10 -> ClubsJack
-                    11 -> ClubsKing
-                    12 -> ClubsQueen
-                    else -> CardPlaceholderRefresh
+                    0 -> Res.drawable.clubs_ace
+                    1 -> Res.drawable.clubs_2
+                    2 -> Res.drawable.clubs_3
+                    3 -> Res.drawable.clubs_4
+                    4 -> Res.drawable.clubs_5
+                    5 -> Res.drawable.clubs_6
+                    6 -> Res.drawable.clubs_7
+                    7 -> Res.drawable.clubs_8
+                    8 -> Res.drawable.clubs_9
+                    9 -> Res.drawable.clubs_10
+                    10 -> Res.drawable.clubs_jack
+                    11 -> Res.drawable.clubs_king
+                    12 -> Res.drawable.clubs_queen
+                    else -> Res.drawable.card_placeholder
 
                 }
             }
 
             1 -> {
                 when (valueIndex) {
-                    0 -> DiamondsAce
-                    1 -> Diamonds2
-                    2 -> Diamonds3
-                    3 -> Diamonds4
-                    4 -> Diamonds5
-                    5 -> Diamonds6
-                    6 -> Diamonds7
-                    7 -> Diamonds8
-                    8 -> Diamonds9
-                    9 -> Diamonds10
-                    10 -> DiamondsJack
-                    11 -> DiamondsKing
-                    12 -> DiamondsQueen
-                    else -> CardPlaceholderRefresh
+                    0 -> Res.drawable.diamonds_ace
+                    1 -> Res.drawable.diamonds_2
+                    2 -> Res.drawable.diamonds_3
+                    3 -> Res.drawable.diamonds_4
+                    4 -> Res.drawable.diamonds_5
+                    5 -> Res.drawable.diamonds_6
+                    6 -> Res.drawable.diamonds_7
+                    7 -> Res.drawable.diamonds_8
+                    8 -> Res.drawable.diamonds_9
+                    9 -> Res.drawable.diamonds_10
+                    10 -> Res.drawable.diamonds_jack
+                    11 -> Res.drawable.diamonds_king
+                    12 -> Res.drawable.diamonds_queen
+                    else -> Res.drawable.card_placeholder
                 }
             }
 
             2 -> {
                 when (valueIndex) {
-                    0 -> HeartsAce
-                    1 -> Hearts2
-                    2 -> Hearts3
-                    3 -> Hearts4
-                    4 -> Hearts5
-                    5 -> Hearts6
-                    6 -> Hearts7
-                    7 -> Hearts8
-                    8 -> Hearts9
-                    9 -> Hearts10
-                    10 -> HeartsJack
-                    11 -> HeartsKing
-                    12 -> HeartsQueen
-                    else -> CardPlaceholderRefresh
+                    0 -> Res.drawable.hearts_ace
+                    1 -> Res.drawable.hearts_2
+                    2 -> Res.drawable.hearts_3
+                    3 -> Res.drawable.hearts_4
+                    4 -> Res.drawable.hearts_5
+                    5 -> Res.drawable.hearts_6
+                    6 -> Res.drawable.hearts_7
+                    7 -> Res.drawable.hearts_8
+                    8 -> Res.drawable.hearts_9
+                    9 -> Res.drawable.hearts_10
+                    10 -> Res.drawable.hearts_jack
+                    11 -> Res.drawable.hearts_king
+                    12 -> Res.drawable.hearts_queen
+                    else -> Res.drawable.card_placeholder
                 }
             }
 
             3 -> {
                 when (valueIndex) {
-                    0 -> SpadesAce
-                    1 -> Spades2
-                    2 -> Spades3
-                    3 -> Spades4
-                    4 -> Spades5
-                    5 -> Spades6
-                    6 -> Spades7
-                    7 -> Spades8
-                    8 -> Spades9
-                    9 -> Spades10
-                    10 -> SpadesJack
-                    11 -> SpadesKing
-                    12 -> SpadesQueen
-                    else -> CardPlaceholderRefresh
+                    0 -> Res.drawable.spades_ace
+                    1 -> Res.drawable.spades_2
+                    2 -> Res.drawable.spades_3
+                    3 -> Res.drawable.spades_4
+                    4 -> Res.drawable.spades_5
+                    5 -> Res.drawable.spades_6
+                    6 -> Res.drawable.spades_7
+                    7 -> Res.drawable.spades_8
+                    8 -> Res.drawable.spades_9
+                    9 -> Res.drawable.spades_10
+                    10 -> Res.drawable.spades_jack
+                    11 -> Res.drawable.spades_king
+                    12 -> Res.drawable.spades_queen
+                    else -> Res.drawable.card_placeholder
                 }
             }
 
-            else -> CardPlaceholderRefresh
+            else -> Res.drawable.card_placeholder
         }
 
     }
